@@ -2,7 +2,7 @@ import json
 import os
 import time
 from io import open
-
+import urllib.request
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
 
@@ -41,11 +41,41 @@ class CreateReactLoader(object):
 
         return data.json()
 
+    # "entrypoints": [
+    #     "static/js/runtime-main.3d81b821.js",
+    #     "static/css/2.ff442aac.chunk.css",
+    #     "static/js/2.a49b7578.chunk.js",
+    #     "static/css/main.f8d2615e.chunk.css",
+    #     "static/js/main.1bd91348.chunk.js"
+    # ]
+
     def get_prod_assets(self):
         try:
+            print("hello")
+            self.manifest_path = "https://storage.googleapis.com/bookingstock/static/frontend/asset-manifest.json"
             build_folder = self.config['BUNDLE_DIR_NAME']
             if self.manifest_path:
-                manifest_file = self.manifest_path
+                with urllib.request.urlopen(self.manifest_path) as url:
+                    data = json.loads(url.read().decode())
+                    print(data)
+
+                    # data["files"] = list(data["files"])
+                    # data["entrypoints"] = list(data["entrypoints"])
+
+                    # for key in data["files"]:
+                    #     data["files"][key] = data["files"][key].replace("/static/",
+                    #                                                     "https://storage.googleapis.com/bookingstock/static/")
+                    #
+                    # for i, item in enumerate(data["entrypoints"]):
+                    #     thing = item.replace("/static/", "https://storage.googleapis.com/bookingstock/static/")
+                    #     print("change to", thing)
+                    #     data["entrypoints"][i] = thing
+
+                    print(data)
+
+                    return data
+                # manifest_file = self.manifest_path
+                # return json.
             else:
                 manifest_file = os.path.join(build_folder, self.asset_file)
             with open(manifest_file, encoding="utf-8") as f:

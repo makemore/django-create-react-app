@@ -68,7 +68,7 @@ class CreateReactLoader(object):
                     #
                     for i, item in enumerate(data["entrypoints"]):
                         #print("original", item)
-                        thing = item.replace("static/", "https://storage.googleapis.com/bookingstock/static/")
+                        thing = item.replace("static/", "https://storage.googleapis.com/bookingstock/static/frontend/static/")
                         #print("change to", thing)
                         data["entrypoints"][i] = thing
 

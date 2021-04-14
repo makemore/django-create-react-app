@@ -51,27 +51,28 @@ class CreateReactLoader(object):
 
     def get_prod_assets(self):
         try:
-            print("hello")
+            #print("hello")
             self.manifest_path = "https://storage.googleapis.com/bookingstock/static/frontend/asset-manifest.json"
             build_folder = self.config['BUNDLE_DIR_NAME']
             if self.manifest_path:
                 with urllib.request.urlopen(self.manifest_path) as url:
                     data = json.loads(url.read().decode())
-                    print(data)
+                    # print(data)
 
                     # data["files"] = list(data["files"])
-                    # data["entrypoints"] = list(data["entrypoints"])
+                    data["entrypoints"] = list(data["entrypoints"])
 
                     # for key in data["files"]:
                     #     data["files"][key] = data["files"][key].replace("/static/",
                     #                                                     "https://storage.googleapis.com/bookingstock/static/")
                     #
-                    # for i, item in enumerate(data["entrypoints"]):
-                    #     thing = item.replace("/static/", "https://storage.googleapis.com/bookingstock/static/")
-                    #     print("change to", thing)
-                    #     data["entrypoints"][i] = thing
+                    for i, item in enumerate(data["entrypoints"]):
+                        #print("original", item)
+                        thing = item.replace("static/", "https://storage.googleapis.com/bookingstock/static/")
+                        #print("change to", thing)
+                        data["entrypoints"][i] = thing
 
-                    print(data)
+                    #print(data["entrypoints"])
 
                     return data
                 # manifest_file = self.manifest_path

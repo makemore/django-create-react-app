@@ -41,7 +41,6 @@ def _filter_by_extension(bundle, extension):
             yield bundle
 
 
-
 def _get_bundle(extension, loader):
     bundle = loader.get_bundle()
     if extension:
@@ -89,7 +88,9 @@ def script_paths(bundle, asset_path):
 def get_as_tags(extension=None, config='DEFAULT', attrs=''):
     loader = get_loader(config)
     bundle = _get_bundle(extension, loader)
-    asset_path = loader.asset_path
+    #asset_path = loader.asset_path
+    #This was not being respected properly, ie static url wasn't being injected here properly
+    asset_path = ""
     return src_tags(bundle, asset_path, attrs)
 
 
